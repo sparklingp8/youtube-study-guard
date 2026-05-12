@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Study Guard</title>
+    <style>
+        :root {
+            --bg-1: #f8fafc;
+            --bg-2: #eef2f7;
+            --ink: #0f172a;
+            --muted: #475569;
+            --line: #dbe3ef;
+            --brand: #0f4c81;
+            --accent: #d7263d;
+        }
+
+        body {
+            margin: 0;
+            width: 340px;
+            min-height: 230px;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top right, #fff 0%, var(--bg-1) 45%, var(--bg-2) 100%);
+            color: var(--ink);
+        }
+
+        .wrap {
+            padding: 16px;
+        }
+
+        .title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+        .subtitle {
+            margin: 4px 0 14px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .row {
+            margin: 8px 0;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .label {
+            color: var(--muted);
+            margin-right: 6px;
+            font-weight: 600;
+        }
+
+        .value {
+            font-weight: 600;
+            text-align: right;
+            color: #0b2239;
+            font-size: 13px;
+        }
+
+        .note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.45;
+            background: rgba(15, 76, 129, 0.07);
+            border: 1px solid rgba(15, 76, 129, 0.15);
+            border-radius: 10px;
+            padding: 8px 10px;
+        }
+
+        .error {
+            color: #b00020;
+            font-size: 13px;
+            margin-top: 10px;
+            min-height: 18px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1 class="title">YouTube Study Guard</h1>
+        <p class="subtitle">Intentional watching, not random scrolling.</p>
+        <div class="card">
+            <div class="row"><span class="label">Interval:</span><span id="interval" class="value">-</span></div>
+            <div class="row"><span class="label">Status:</span><span class="value"><span class="status-dot"></span><span
+                        id="status">Loading...</span></span></div>
+            <div class="row"><span class="label">Time left:</span><span id="remaining" class="value">-</span></div>
+        </div>
+        <div id="message" class="note"></div>
+        <div id="error" class="error"></div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
