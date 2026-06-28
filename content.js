@@ -219,9 +219,24 @@
         return { question: `${left} * ${right}`, answer: left * right };
     }
 
+    function pauseYouTubeVideo() {
+        const video = document.querySelector("video");
+        if (!video) return false;
+
+        try {
+            if (!video.paused) {
+                video.pause();
+            }
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
     function showMathPopup() {
         if (document.getElementById("yt-popup-overlay")) return false;
 
+        pauseYouTubeVideo();
         nextPopupAt = null;
 
         const equation = getEquation();
