@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YouTube Study Guard</title>
+    <!-- Inline styles keep the extension popup self-contained and quick to load. -->
     <style>
         :root {
             --bg-1: #f8fafc;
@@ -106,6 +107,7 @@
     <div class="wrap">
         <h1 class="title">YouTube Study Guard</h1>
         <p class="subtitle">Intentional watching, not random scrolling.</p>
+        <!-- Live status values are filled by popup.js from the active YouTube tab. -->
         <div class="card">
             <div class="row"><span class="label">Interval:</span><span id="interval" class="value">-</span></div>
             <div class="row"><span class="label">Status:</span><span class="value"><span class="status-dot"></span><span
@@ -115,6 +117,7 @@
         <div id="message" class="note"></div>
         <div id="error" class="error"></div>
     </div>
+    <!-- Loaded last so all popup elements exist before the script updates them. -->
     <script src="popup.js"></script>
 </body>
 

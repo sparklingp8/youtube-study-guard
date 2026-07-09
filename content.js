@@ -1,7 +1,10 @@
 (function () {
+    // Content scripts can be reinjected by page navigation, so guard against
+    // duplicate timers and duplicate popup markup on the same YouTube page.
     if (window.__ytPopupMathInitialized) return;
     window.__ytPopupMathInitialized = true;
 
+    // Shared interval choices used by the popup controls and the scheduler.
     const INTERVAL_OPTIONS = {
         "30s": 30 * 1000,
         "2m": 2 * 60 * 1000,
@@ -12,6 +15,8 @@
     let nextPopupAt = null;
 
     function ensurePopupStyles() {
+        // Inject styles once from the content script so the extension does not
+        // need a separate stylesheet file or global CSS on YouTube.
         if (document.getElementById("yt-study-guard-styles")) return;
 
         const style = document.createElement("style");
@@ -171,6 +176,7 @@
     }
 
     function getPopupStatus() {
+        // The browser-action popup asks for this status every second.
         const remainingMs = nextPopupAt ? Math.max(0, nextPopupAt - Date.now()) : null;
         return {
             intervalKey: selectedIntervalKey,
@@ -189,6 +195,8 @@
     }
 
     function scheduleNextPopup() {
+        // Rescheduling clears the previous timeout so changing the interval
+        // takes effect immediately.
         if (popupTimer) {
             clearTimeout(popupTimer);
         }
@@ -205,6 +213,7 @@
     }
 
     function getEquation() {
+        // Keep the arithmetic small enough to be a focus check, not a chore.
         const left = Math.floor(Math.random() * 20) + 1;
         const right = Math.floor(Math.random() * 20) + 1;
         const operators = ["+", "-", "*"];
@@ -220,6 +229,8 @@
     }
 
     function pauseYouTubeVideo() {
+        // YouTube may replace the video element during navigation, so query it
+        // each time instead of storing a stale element reference.
         const video = document.querySelector("video");
         if (!video) return false;
 
@@ -234,6 +245,8 @@
     }
 
     function showMathPopup() {
+        // Do not stack multiple blocking overlays if the timer fires while one
+        // is already open.
         if (document.getElementById("yt-popup-overlay")) return false;
 
         pauseYouTubeVideo();
@@ -282,6 +295,8 @@
 
         intervalRadios.forEach(function (radio) {
             radio.addEventListener("change", function (event) {
+                // Persist the user's choice for this page session and restart
+                // the timer from now.
                 selectedIntervalKey = event.target.value;
                 scheduleNextPopup();
             });
@@ -290,6 +305,8 @@
         answerInput.focus();
 
         function validateAnswer() {
+            // Number("") is 0, which is acceptable only when the real answer is
+            // also 0; incorrect or empty answers keep the guard visible.
             const userAnswer = Number(answerInput.value);
             if (userAnswer === equation.answer) {
                 overlay.remove();
